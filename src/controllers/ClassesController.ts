@@ -44,9 +44,10 @@ export default class ClassesController {
 
       const newClasses = classes.map(async (classe) => {
         classe.schedule = await db('class_schedule').where(
-          'class_id',
-          classe.id
+          'owner_id',
+          classe.owner_id
         );
+
         return classe;
       });
 
@@ -71,7 +72,10 @@ export default class ClassesController {
       .select(['classes.*', 'users.*']);
 
     const newClasses = classes.map(async (classe) => {
-      classe.schedule = await db('class_schedule').where('class_id', classe.id);
+      classe.schedule = await db('class_schedule').where(
+        'owner_id',
+        classe.owner_id
+      );
       return classe;
     });
 
@@ -133,10 +137,12 @@ export default class ClassesController {
     const trx = await db.transaction();
 
     try {
-      await trx('users').where('id', id).update({
-        whatsapp,
-        bio,
-      });
+      if (whatsapp || bio) {
+        await trx('users').where('id', id).update({
+          whatsapp,
+          bio,
+        });
+      }
 
       await trx('classes').where('owner_id', id).del();
       await trx('class_schedule').where('owner_id', id).del();
@@ -155,7 +161,7 @@ export default class ClassesController {
         return {
           owner_id: id,
           class_id,
-          week_day: scheduleItem.week_day,
+          week_day: Number(scheduleItem.week_day),
           from: scheduleItem.from,
           to: scheduleItem.to,
           from_minutes: convertHourToMinutes(scheduleItem.from),
