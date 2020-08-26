@@ -40,34 +40,46 @@ This project was developed with the following technologies:
 - [ts-node-dev](https://github.com/whitecolor/ts-node-dev)
 - [Express](https://expressjs.com/)
 - [KnexJS](http://knexjs.org/)
-- [SQLite 3](https://www.npmjs.com/package/sqlite3)
+- [PostgreSQL](https://www.npmjs.com/package/sqlite3)
+- [Cors](https://www.npmjs.com/package/cors)
+- [bcrypt](https://www.npmjs.com/package/bcrypt)
+- [JsonWebToken](https://www.npmjs.com/package/jsonwebtoken)
 
 ## How To Use
 
-To clone and run this application, you'll need [Git](https://git-scm.com), [Node.js](https://nodejs.org/) + [Yarn v1](https://classic.yarnpkg.com/) installed on your computer. From your command line:
+To clone and run this application, you'll need installed on your computer:
+- [Git](https://git-scm.com)
+- [Node.js](https://nodejs.org/)
+- [Yarn v1](https://classic.yarnpkg.com/) 
+- One instance of [PostgreSQL](https://www.postgresql.org/) to run the server
+
+> Obs.: I recommend using `docker` to create and run the PostgreSQL instance.
+
+To run the server:
 
 ```bash
-# Clone this repository
-$ git clone https://github.com/rafacdomin/proffy
+# Clone the server repository
+$ git clone https://github.com/rafacdomin/proffy-api
 
-# Go into the repository
-$ cd proffy
+# Create the instance of postgreSQL using docker
+$ docker run --name proffyPG -e POSTGRES_USER=docker \
+              -e POSTGRES_DB=proffy -e POSTGRES_PASSWORD=docker \
+              -p 5432:5432 -d postgres
+
+# Go into the repository folder
+$ cd proffy-api
+
 ```
 
-To run the API server:
+Make a copy of .env.example to .env and set YOUR enviroment variables
 
 ```bash
-# Go into the api folder
-$ cd api
-
 # Install dependencies
 $ yarn
 
 # Run the app
-$ yarn start
+$ yarn dev
 ```
-
-Now import the `Insomnia_proffy.json` file inside of the api folder to your Insomnia.
 
 ## License
 
