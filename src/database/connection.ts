@@ -8,6 +8,7 @@ const db = knex({
     user: process.env.PG_USER,
     password: process.env.PG_PASSWORD,
     database: process.env.PG_DATABASE,
+    ssl: true,
   },
   useNullAsDefault: true,
 });
